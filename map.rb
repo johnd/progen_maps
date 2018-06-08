@@ -8,3 +8,4 @@ map = Grid.new(rows,columns)
 Trees.seed(map)
 Trees.grow_forests(map)
 puts map
+map.to_png

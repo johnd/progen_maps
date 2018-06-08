@@ -1,3 +1,5 @@
+require 'rmagick'
+
 class Cell
   attr_reader :row, :column, :type
   attr_accessor :north, :south, :east, :west
@@ -5,6 +7,10 @@ class Cell
   CELL_TYPE_MAP = 
     {:grass => "¨",
      :tree  => "t"}
+
+  CELL_IMAGE_MAP = 
+    {:grass => "grass_02.png",
+     :tree => "tree_02.png"}
 
   def initialize(row, column, cell_type=:grass)
     @row, @column = row, column
@@ -34,6 +40,10 @@ class Cell
 
   def to_s
     CELL_TYPE_MAP[type]
+  end
+
+  def to_img
+    Magick::Image.read("assets/" + CELL_IMAGE_MAP[type]).first
   end
 
   def type=(cell_type)
