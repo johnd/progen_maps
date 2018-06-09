@@ -38,7 +38,7 @@ class Trees
 
     def random_tree_growth(cell)
       cell.neighbors.each do |tree|
-        next if tree.type == :tree 
+        next if tree.type == :tree
         if Helper.coinflip(3)
           tree.type = :tree
           random_tree_growth(tree)
@@ -71,7 +71,7 @@ class Trees
       when northeast && northwest && southeast && southwest
         # Surrounded by trees
         "tile240.png"
-      when northeast && southeast && southwest 
+      when northeast && southeast && southwest
         # north-west corner grass
         "tile210.png"
       when northwest && southeast && southwest
@@ -89,25 +89,25 @@ class Trees
       when northeast && southeast
         # west side grass
         "tile239.png"
-      when northwest && southwest 
+      when northwest && southwest
         # east side grass
         "tile241.png"
-      when northeast && northwest 
+      when northeast && northwest
         # south side grass
         "tile272.png"
-      when northeast && southwest 
+      when northeast && southwest
         # diagonal grass south-east -> north-west
         "tile274.png"
-      when northwest && southeast 
+      when northwest && southeast
         # diagonal grass south-west -> north-east
         "tile275.png"
       when southeast
         "tile207.png"
       when southwest
         "tile209.png"
-      when northeast 
+      when northeast
         "tile271.png"
-      when northwest 
+      when northwest
         "tile273.png"
       else
         # Single stand-alone tree, also covers any situation with no diagonal trees

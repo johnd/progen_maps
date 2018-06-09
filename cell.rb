@@ -7,7 +7,7 @@ class Cell
   attr_accessor :north, :south, :east, :west
   attr_accessor :northwest, :southwest, :northeast, :southeast
 
-  CELL_TYPE_MAP = 
+  CELL_TYPE_MAP =
     {:grass => "¨",
      :tree  => "t"}
 
