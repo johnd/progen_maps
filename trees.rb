@@ -59,33 +59,47 @@ class Trees
       east  = cell.east&.type  == :tree
       south = cell.south&.type == :tree
       west  = cell.west&.type  == :tree
+
+      # Due to the way the tiles are designed, we only want 'corners' if we also have 'sides'.
       northeast = cell.northeast&.type == :tree && north && east
       northwest = cell.northwest&.type == :tree && north && west
       southeast = cell.southeast&.type == :tree && south && east
       southwest = cell.southwest&.type == :tree && south && west
 
       case
+        # So, Ruby's case statements don't fall through, so ordering matters here.
       when northeast && northwest && southeast && southwest
+        # Surrounded by trees
         "tile240.png"
       when northeast && southeast && southwest 
+        # north-west corner grass
         "tile210.png"
       when northwest && southeast && southwest
+        # north-east corner grass
         "tile211.png"
       when northeast && northwest && southeast
+        # south-west corner grass
         "tile242.png"
       when northeast && northwest && southwest
+        # south-east corner grass
         "tile243.png"
       when southeast && southwest
+        # north side grass
         "tile208.png"
       when northeast && southeast
+        # west side grass
         "tile239.png"
       when northwest && southwest 
+        # east side grass
         "tile241.png"
       when northeast && northwest 
+        # south side grass
         "tile272.png"
       when northeast && southwest 
+        # diagonal grass south-east -> north-west
         "tile274.png"
       when northwest && southeast 
+        # diagonal grass south-west -> north-east
         "tile275.png"
       when southeast
         "tile207.png"
@@ -96,6 +110,7 @@ class Trees
       when northwest 
         "tile273.png"
       else
+        # Single stand-alone tree, also covers any situation with no diagonal trees
         "tile206.png"
       end
 
