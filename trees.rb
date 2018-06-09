@@ -1,4 +1,5 @@
 require_relative 'helper'
+require 'rmagick'
 
 class Trees
   class << self
@@ -37,12 +38,70 @@ class Trees
 
     def random_tree_growth(cell)
       cell.neighbors.each do |tree|
-        next if tree.type == :tree
+        next if tree.type == :tree 
         if Helper.coinflip(3)
           tree.type = :tree
           random_tree_growth(tree)
         end
       end
     end
+
+    def to_img(cell)
+      tree_image = Magick::Image.read("assets/tileset/" + pick_tree_tile(cell)).first
+      tree_image.alpha(Magick::ActivateAlphaChannel)
+      grass_image = Magick::Image.read("assets/tileset/tile000.png").first
+      grass_image.composite(tree_image,Magick::NorthWestGravity, 0, 0, Magick::OverCompositeOp)
+    end
+
+    def pick_tree_tile(cell)
+      # If a forest is at the edge of the map, assume it's more tree 'off' the map.
+      north = cell.north&.type == :tree
+      east  = cell.east&.type  == :tree
+      south = cell.south&.type == :tree
+      west  = cell.west&.type  == :tree
+      northeast = cell.northeast&.type == :tree && north && east
+      northwest = cell.northwest&.type == :tree && north && west
+      southeast = cell.southeast&.type == :tree && south && east
+      southwest = cell.southwest&.type == :tree && south && west
+
+      case
+      when northeast && northwest && southeast && southwest
+        "tile240.png"
+      when northeast && southeast && southwest 
+        "tile210.png"
+      when northwest && southeast && southwest
+        "tile211.png"
+      when northeast && northwest && southeast
+        "tile242.png"
+      when northeast && northwest && southwest
+        "tile243.png"
+      when southeast && southwest
+        "tile208.png"
+      when northeast && southeast
+        "tile239.png"
+      when northwest && southwest 
+        "tile241.png"
+      when northeast && northwest 
+        "tile272.png"
+      when northeast && southwest 
+        "tile274.png"
+      when northwest && southeast 
+        "tile275.png"
+      when southeast
+        "tile207.png"
+      when southwest
+        "tile209.png"
+      when northeast 
+        "tile271.png"
+      when northwest 
+        "tile273.png"
+      else
+        "tile206.png"
+      end
+
+    end
+
   end
+
+
 end

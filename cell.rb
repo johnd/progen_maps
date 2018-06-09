@@ -1,16 +1,15 @@
 require 'rmagick'
+require_relative 'helper'
+require_relative 'trees'
 
 class Cell
   attr_reader :row, :column, :type
   attr_accessor :north, :south, :east, :west
+  attr_accessor :northwest, :southwest, :northeast, :southeast
 
   CELL_TYPE_MAP = 
     {:grass => "¨",
      :tree  => "t"}
-
-  CELL_IMAGE_MAP = 
-    {:grass => "grass_02.png",
-     :tree => "tree_02.png"}
 
   def initialize(row, column, cell_type=:grass)
     @row, @column = row, column
@@ -43,7 +42,11 @@ class Cell
   end
 
   def to_img
-    Magick::Image.read("assets/" + CELL_IMAGE_MAP[type]).first
+    if type == :grass
+      Magick::Image.read("assets/tileset/" + pick_grass_tile).first
+    elsif type == :tree
+      Trees.to_img(self)
+    end
   end
 
   def type=(cell_type)
@@ -51,6 +54,20 @@ class Cell
       @type = cell_type
     else
       raise "INVALID CELL TYPE!"
+    end
+  end
+
+  def pick_grass_tile
+    randomness = rand(50)
+    case
+    when randomness == 0
+      "tile001.png"
+    when randomness == 1
+      "tile002.png"
+    when randomness == 2
+      "tile003.png"
+    else
+      "tile000.png"
     end
   end
 

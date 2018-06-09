@@ -32,6 +32,10 @@ class Grid
       cell.south = self[row + 1, col]
       cell.west  = self[row, col - 1]
       cell.east  = self[row, col + 1]
+      cell.northwest = self[row - 1, col - 1]
+      cell.southwest = self[row + 1, col - 1]
+      cell.northeast = self[row - 1, col + 1]
+      cell.southeast = self[row + 1, col + 1]
     end
   end
 
