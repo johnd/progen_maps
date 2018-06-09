@@ -58,16 +58,22 @@ class Cell
   end
 
   def pick_grass_tile
-    randomness = rand(50)
-    case
-    when randomness == 0
-      "tile001.png"
-    when randomness == 1
-      "tile002.png"
-    when randomness == 2
-      "tile003.png"
-    else
+    if neighbors.map(&:type).include? :tree
+      # Use plain grass tile when next to trees...
       "tile000.png"
+    else
+      # ...otherwise scatter leaves randomly + infrequently
+      randomness = rand(75)
+      case
+      when randomness == 0
+        "tile001.png"
+      when randomness == 1
+        "tile002.png"
+      when randomness == 2
+        "tile003.png"
+      else
+        "tile000.png"
+      end
     end
   end
 
