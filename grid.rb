@@ -1,4 +1,5 @@
 require_relative 'cell'
+require 'rmagick'
 
 class Grid
   attr_reader :rows, :columns
@@ -74,6 +75,22 @@ class Grid
       output << "\n"
     end
     output
+  end
+
+  def to_img
+    output = Magick::ImageList.new
+    each_row do |row|
+      row_list = Magick::ImageList.new
+      row.each do |cell|
+        row_list.push(cell.to_img)
+      end
+      output.push(row_list.append(false))
+    end
+    output.append(true)
+  end
+
+  def to_png(filename="output.png")
+    self.to_img.write(filename)
   end
 
 end
